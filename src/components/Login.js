@@ -66,8 +66,7 @@ function Login() {
 
         document.cookie = `sessionid=${data.data.session_id}; path=/; Secure; SameSite=Strict`;
         document.cookie = `csrftoken=${data.data.csrftoken}; path=/; Secure; SameSite=Strict`;
-
-        alert("Login successful!");
+        
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Login failed. Please try again.");
