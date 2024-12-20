@@ -1,24 +1,80 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./components/Home";
-import About from "./components/Login";
-import Contact from "./components/Register";
+import React, { useState, useEffect } from 'react'; // React 훅 사용을 위해 추가
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'; // React Router 컴포넌트
+import Home from './components/Home'; // Home 컴포넌트 경로에 맞게 수정
+import Login from './components/Login'; // Login 컴포넌트 경로에 맞게 수정
+import Register from './components/Register'; // Register 컴포넌트 경로에 맞게 수정
+import Dashboard from './components/Dashboard'; // Dashboard 컴포넌트 경로에 맞게 수정
 
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // 로그인 상태 확인
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/check-auth/`, {
+          method: "POST",
+          credentials: "include", // 세션 쿠키를 자동으로 포함
+        });
+        if (response.ok) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   return (
     <Router>
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/login">로그인</Link></li>
-          <li><Link to="/register">회원가입</Link></li>
+          {isAuthenticated ? (
+            <>
+              <li><Link to="/dashboard">대시보드</Link></li>
+              <li>
+                <button
+                  onClick={async () => {
+                    await fetch(`${process.env.REACT_APP_API_URL}/api/logout/`, {
+                      method: "POST",
+                      credentials: "include", // 세션 쿠키를 포함
+                    });
+                    setIsAuthenticated(false);
+                  }}
+                >
+                  로그아웃
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li><Link to="/login">로그인</Link></li>
+              <li><Link to="/register">회원가입</Link></li>
+            </>
+          )}
         </ul>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<About />} />
-        <Route path="/register" element={<Contact />} />
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />}
+        />
+        <Route
+          path="/register"
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Register />}
+        />
+        <Route
+          path="/dashboard"
+          element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+        />
       </Routes>
     </Router>
   );

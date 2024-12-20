@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 async function hashPasswordPBKDF2(password, salt) {
   const encoder = new TextEncoder();
@@ -31,7 +31,7 @@ async function hashPasswordPBKDF2(password, salt) {
   return hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-function Login() {
+function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받음
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState("");
@@ -58,15 +58,20 @@ function Login() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, pw: encryptedPw }),
+        credentials: "include",  // 세션 쿠키를 포함
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful:", data);
 
-        document.cookie = `sessionid=${data.data.session_id}; path=/; Secure; SameSite=Strict`;
-        document.cookie = `csrftoken=${data.data.csrftoken}; path=/; Secure; SameSite=Strict`;
-        
+        document.cookie = `sessionid=${data.data.session_id}; path=/;`;
+        document.cookie = `csrftoken=${data.data.csrftoken}; path=/;`;
+        // document.cookie = `sessionid=${data.data.session_id}; path=/; Secure; SameSite=Strict`;
+        // document.cookie = `csrftoken=${data.data.csrftoken}; path=/; Secure; SameSite=Strict`;
+
+        // React 상태 업데이트
+        setIsAuthenticated(true);
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Login failed. Please try again.");
@@ -89,7 +94,6 @@ function Login() {
             value={id}
             onChange={(e) => setId(e.target.value)}
             required
-            aria-label="ID"
           />
         </div>
         <div className="form-group">
@@ -100,7 +104,6 @@ function Login() {
             value={pw}
             onChange={(e) => setPw(e.target.value)}
             required
-            aria-label="Password"
           />
         </div>
         {error && <p className="error-message">{error}</p>}
