@@ -64,9 +64,10 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
       if (response.ok) {
         const data = await response.json();
         console.log("Login Successful:", data);
-
+        // HTTP 일 경우
         document.cookie = `sessionid=${data.data.session_id}; path=/;`;
         document.cookie = `csrftoken=${data.data.csrftoken}; path=/;`;
+        // HTTPS 일 경우
         // document.cookie = `sessionid=${data.data.session_id}; path=/; Secure; SameSite=Strict`;
         // document.cookie = `csrftoken=${data.data.csrftoken}; path=/; Secure; SameSite=Strict`;
 

@@ -15,6 +15,10 @@ function App() {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/check-auth/`, {
           method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
           credentials: "include", // 세션 쿠키를 자동으로 포함
         });
         if (response.ok) {
@@ -31,6 +35,13 @@ function App() {
     checkAuth();
   }, []);
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+  
+
   return (
     <Router>
       <nav>
@@ -42,11 +53,17 @@ function App() {
               <li>
                 <button
                   onClick={async () => {
-                    await fetch(`${process.env.REACT_APP_API_URL}/api/logout/`, {
+                    const logoutResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/logout/`, {
                       method: "POST",
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                      },
                       credentials: "include", // 세션 쿠키를 포함
                     });
                     setIsAuthenticated(false);
+                    const data = await logoutResponse.json();
+                    document.cookie = `csrftoken=${data.data.csrftoken}; path=/;`;
                   }}
                 >
                   로그아웃
