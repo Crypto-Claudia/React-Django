@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Link만 임포트
 
 async function hashPasswordPBKDF2(password, salt) {
   const encoder = new TextEncoder();
@@ -67,6 +68,8 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
         // HTTP 일 경우
         document.cookie = `sessionid=${data.data.session_id}; path=/;`;
         document.cookie = `csrftoken=${data.data.csrftoken}; path=/;`;
+        localStorage.removeItem("salt");
+        localStorage.setItem("salt", data.data.salt);
         // HTTPS 일 경우
         // document.cookie = `sessionid=${data.data.session_id}; path=/; Secure; SameSite=Strict`;
         // document.cookie = `csrftoken=${data.data.csrftoken}; path=/; Secure; SameSite=Strict`;
@@ -109,6 +112,7 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
         </div>
         {error && <p className="error-message">{error}</p>}
         <button type="submit" className="btn-primary">Login</button>
+        <Link to="/register"><button>회원가입</button></Link>
       </form>
     </div>
   );
