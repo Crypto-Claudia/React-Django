@@ -70,6 +70,11 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
         document.cookie = `csrftoken=${data.data.csrftoken}; path=/;`;
         localStorage.removeItem("salt");
         localStorage.setItem("salt", data.data.salt);
+        localStorage.setItem("user_id", data.data.user_id);
+        localStorage.setItem("email", data.data.email);
+        localStorage.setItem("region", data.data.region);
+        localStorage.setItem("diseases", data.data.diseases);
+        localStorage.setItem("nickname", data.data.nickname);
         // HTTPS 일 경우
         // document.cookie = `sessionid=${data.data.session_id}; path=/; Secure; SameSite=Strict`;
         // document.cookie = `csrftoken=${data.data.csrftoken}; path=/; Secure; SameSite=Strict`;

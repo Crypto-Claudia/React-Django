@@ -88,10 +88,11 @@ function Mypage() {
       {error && <p className="error-message">{error}</p>}
       {userData ? (
         <div className="user-info">
-          <p><strong>ID:</strong> {userData.user_id}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Region:</strong> {userData.region}</p>
-          <p><strong>Diseases:</strong> {userData.diseases}</p>
+          <p><strong>아이디:</strong> {userData.user_id}</p>
+          <p><strong>닉네임:</strong> {userData.nickname}</p>
+          <p><strong>이메일:</strong> {userData.email}</p>
+          <p><strong>관측소 지역:</strong> {userData.region}</p>
+          <p><strong>질환:</strong> {userData.diseases}</p>
           <p>&nbsp;</p>
           <Link to="/update"><button>정보수정</button></Link>
           <hr />
