@@ -172,6 +172,7 @@ function UpdatePassword({setIsAuthenticated}) {
                         required
                     />
                 </div>
+                <p>&nbsp;</p>
                 <button type="submit">비밀번호 변경</button>
             </form>
             {errorMessage && <p className="error-message">{errorMessage}</p>}

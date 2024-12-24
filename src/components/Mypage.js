@@ -74,11 +74,11 @@ function Mypage() {
     }
   };
 
-  const getRowStyle = (resultCode) => {
+  const getTrId = (resultCode) => {
     if (resultCode === 2) {
-      return { backgroundColor: 'red', color: 'white' }; // 로그인 실패는 붉은색 배경
+      return "failure-row";
     } else {
-      return { backgroundColor: 'lightgreen' }; // 그 외 결과는 연두색 배경
+      return "success-row";
     }
   };
 
@@ -92,9 +92,12 @@ function Mypage() {
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Region:</strong> {userData.region}</p>
           <p><strong>Diseases:</strong> {userData.diseases}</p>
+          <p>&nbsp;</p>
           <Link to="/update"><button>정보수정</button></Link>
+          <hr />
           <Link to="/updatePassword"><button>비밀번호수정</button></Link>
           <hr />
+          <p>&nbsp;</p>
           <h1>보안이력</h1>
           {accessHistory.length > 0 ? (
             <table>
@@ -107,7 +110,7 @@ function Mypage() {
               </thead>
               <tbody>
               {accessHistory.slice().reverse().map((history, index) => (
-                <tr key={index} style={getRowStyle(history.result)}> 
+                <tr key={index} class={getTrId(history.result)}> 
                     <td>{new Date(history.access_time).toLocaleString()}</td>
                     <td>{history.access_ip}</td>
                     <td>{getResultMessage(history.result)}</td> 

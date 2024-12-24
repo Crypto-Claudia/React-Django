@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import Mypage from './components/Mypage';
 import Update from './components/Update';
 import UpdatePassword from './components/UpdatePassword';
+import './css/base.css';
 
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
               <li><Link to="/dashboard">대시보드</Link></li>
               <li><Link to="/mypage">마이페이지</Link></li>
               <li>
-                <button
+                <Link
                   onClick={async () => {
                     const logoutResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/logout/`, {
                       method: "POST",
@@ -74,7 +75,7 @@ function App() {
                   }}
                 >
                   로그아웃
-                </button>
+                </Link>
               </li>
             </>
           ) : (
