@@ -49,7 +49,7 @@ function App() {
 
   return (
     <Router>
-      <h1><marquee bgcolor="#FF0000" direction="right">localhost:3000 ↔ 127.0.0.1:8000 (X)</marquee></h1>
+      <h1><marquee bgcolor="#FF0000" direction="right">localhost:3000 ↔ 127.0.0.1:8000 (CORS ERROR)</marquee></h1>
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
