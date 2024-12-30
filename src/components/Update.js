@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 function Update() {
   const [formData, setFormData] = useState({
     userId: "",
+    nickname: "",
     email: "",
     region: "",
     subRegion: "",
@@ -140,6 +141,17 @@ function Update() {
             onChange={handleInputChange}
             required
             readOnly
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="nickname">닉네임:</label>
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            value={formData.nickname}
+            onChange={handleInputChange}
+            required
           />
         </div>
         <div className="form-group">
