@@ -36,12 +36,14 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
+      setLoading(true);
       const saltResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/s/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -88,6 +90,8 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
     } catch (err) {
       console.error("Request failed:", err);
       setError(err.message || "An error occurred. Please try again.");
+    } finally {
+      setTimeout(() => {setLoading(false)}, 1000);
     }
   };
 
@@ -116,7 +120,7 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
           />
         </div>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="btn-primary">로그인</button>
+        <button type="submit" className="btn-primary" disabled={loading}>{loading ? "로그인 중..." : "로그인"}</button>
         <Link to="/register"><button>회원가입</button></Link>
       </form>
     </div>
