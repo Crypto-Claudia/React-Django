@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function Mypage() {
   const [userData, setUserData] = useState(null);
-  const [accessHistory, setAccessHistory] = useState([]);  // 접속 이력 상태 관리
+  const [accessHistory, setAccessHistory] = useState([]);
   const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    userData: "",
+    accessHistory: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,9 +25,17 @@ function Mypage() {
 
         if (responseUser.ok) {
           const data = await responseUser.json();
-          setUserData(data.data);
+          if (validateUserData(data.data)) {
+            setUserData(data.data);
+            setValidationErrors((prev) => ({ ...prev, userData: "" }));
+          } else {
+            setValidationErrors((prev) => ({
+              ...prev,
+              userData: "유효하지 않은 사용자 데이터입니다.",
+            }));
+          }
         } else {
-          setError("알 수 없는 오류가 발생하였습니다.");
+          setError("사용자 데이터를 불러오는 데 실패했습니다.");
         }
 
         // 접속 이력 가져오기
@@ -38,17 +50,25 @@ function Mypage() {
 
         if (responseHistory.ok) {
           const dataHistory = await responseHistory.json();
-          setAccessHistory(dataHistory.data);
+          if (validateAccessHistory(dataHistory.data)) {
+            setAccessHistory(dataHistory.data);
+            setValidationErrors((prev) => ({ ...prev, accessHistory: "" }));
+          } else {
+            setValidationErrors((prev) => ({
+              ...prev,
+              accessHistory: "유효하지 않은 접속 이력 데이터입니다.",
+            }));
+          }
         } else {
           setError("접속 이력을 불러오는 데 실패했습니다.");
         }
       } catch (err) {
-        console.error("데이터를 받아오는데 실패했습니다.:", err);
+        console.error("데이터를 받아오는데 실패했습니다:", err);
         setError("데이터를 받아오는데 실패했습니다.");
       }
     };
 
-    fetchData(); 
+    fetchData();
   }, []);
 
   function getCookie(name) {
@@ -56,6 +76,28 @@ function Mypage() {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
+
+  const validateUserData = (data) => {
+    if (!data) return false;
+    if (!data.user_id || typeof data.user_id !== "string") return false;
+    if (data.nickname && typeof data.nickname !== "string") return false;
+    if (data.email && !/\S+@\S+\.\S+/.test(data.email)) return false;
+    if (data.region && typeof data.region !== "string") return false;
+    if (data.diseases && typeof data.diseases !== "string") return false;
+    return true;
+  };
+
+  const validateAccessHistory = (data) => {
+    if (!Array.isArray(data)) return false;
+    return data.every((history) => {
+      return (
+        typeof history.access_time === "string" &&
+        !isNaN(new Date(history.access_time).getTime()) &&
+        typeof history.access_ip === "string" &&
+        typeof history.result === "number"
+      );
+    });
+  };
 
   const getResultMessage = (resultCode) => {
     switch (resultCode) {
@@ -86,6 +128,7 @@ function Mypage() {
     <div className="mypage-container">
       <h1>마이페이지</h1>
       {error && <p className="error-message">{error}</p>}
+      {validationErrors.userData && <p className="error-message">{validationErrors.userData}</p>}
       {userData ? (
         <div className="user-info">
           <p><strong>아이디:</strong> {userData.user_id}</p>
@@ -94,7 +137,7 @@ function Mypage() {
           <p><strong>관측소 지역:</strong> {userData.region}</p>
           <p><strong>질환:</strong></p>
           <div className="diseases-cards">
-            {userData.diseases.split(',').map((disease, index) => (
+            {userData.diseases.split(",").map((disease, index) => (
               <div key={index} className="disease-card">
                 {disease}
               </div>
@@ -107,6 +150,7 @@ function Mypage() {
           <hr />
           <p>&nbsp;</p>
           <h1>보안이력</h1>
+          {validationErrors.accessHistory && <p className="error-message">{validationErrors.accessHistory}</p>}
           {accessHistory.length > 0 ? (
             <table>
               <thead>
@@ -118,12 +162,12 @@ function Mypage() {
               </thead>
               <tbody>
                 {accessHistory.slice().reverse().map((history, index) => (
-                  <tr key={index} className={getTrId(history.result)}> 
+                  <tr key={index} className={getTrId(history.result)}>
                     <td>{new Date(history.access_time).toLocaleString()}</td>
                     <td>{history.access_ip}</td>
-                    <td>{getResultMessage(history.result)}</td> 
+                    <td>{getResultMessage(history.result)}</td>
                   </tr>
-                ))}  
+                ))}
               </tbody>
             </table>
           ) : (
