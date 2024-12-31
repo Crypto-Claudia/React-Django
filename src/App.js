@@ -30,6 +30,7 @@ function App() {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
+          localStorage.clear();
         }
       } catch (error) {
         console.error("Error checking authentication:", error);
@@ -71,7 +72,7 @@ function App() {
                     setIsAuthenticated(false);
                     const data = await logoutResponse.json();
                     document.cookie = `csrftoken=${data.data.csrftoken}; path=/;`;
-                    localStorage.removeItem("salt");
+                    localStorage.clear();
                   }}
                 >
                   로그아웃
