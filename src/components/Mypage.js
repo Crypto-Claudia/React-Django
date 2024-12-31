@@ -92,7 +92,14 @@ function Mypage() {
           <p><strong>닉네임:</strong> {userData.nickname}</p>
           <p><strong>이메일:</strong> {userData.email}</p>
           <p><strong>관측소 지역:</strong> {userData.region}</p>
-          <p><strong>질환:</strong> {userData.diseases}</p>
+          <p><strong>질환:</strong></p>
+          <div className="diseases-cards">
+            {userData.diseases.split(',').map((disease, index) => (
+              <div key={index} className="disease-card">
+                {disease}
+              </div>
+            ))}
+          </div>
           <p>&nbsp;</p>
           <Link to="/update"><button>정보수정</button></Link>
           <hr />
@@ -110,14 +117,13 @@ function Mypage() {
                 </tr>
               </thead>
               <tbody>
-              {accessHistory.slice().reverse().map((history, index) => (
-                <tr key={index} class={getTrId(history.result)}> 
+                {accessHistory.slice().reverse().map((history, index) => (
+                  <tr key={index} className={getTrId(history.result)}> 
                     <td>{new Date(history.access_time).toLocaleString()}</td>
                     <td>{history.access_ip}</td>
                     <td>{getResultMessage(history.result)}</td> 
-                </tr>
-              ))}  
-
+                  </tr>
+                ))}  
               </tbody>
             </table>
           ) : (

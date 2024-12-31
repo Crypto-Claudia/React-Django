@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Update() {
   const [formData, setFormData] = useState({
-    userId: "",
+    user_id: "",
     nickname: "",
     email: "",
     region: "",
@@ -132,7 +132,7 @@ function Update() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="user_id">아이디:</label>
-          <input type="text" id="user_id" name="userId" value={formData.userId} readOnly />
+          <input type="text" id="user_id" name="userId" value={formData.user_id} readOnly />
         </div>
         <div className="form-group">
           <label htmlFor="nickname">닉네임:</label>

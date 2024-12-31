@@ -173,6 +173,43 @@ button:hover:disabled {
   margin-top: 20px;
 }
 
+/* 사용자 정보 스타일 */
+.user-info p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.user-info strong {
+  font-weight: bold;
+  color: #555;
+}
+
+/* 카드 스타일 */
+.diseases-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.disease-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #444;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.disease-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
 /* 테이블 스타일 */
 table {
   width: 100%;
