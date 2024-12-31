@@ -8,6 +8,7 @@ function UpdatePassword({setIsAuthenticated}) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     try {
@@ -47,11 +48,12 @@ function UpdatePassword({setIsAuthenticated}) {
         }
 
         try {
+            setLoading(true);
             const newSalt = generateRandomString(60); // Salt 생성
             const hashedNewPassword = await hashPasswordPBKDF2(newPassword, newSalt); // 새 비밀번호 해싱
             const hashedCurrentPassword = await hashPasswordPBKDF2(currentPassword, currentSalt); // 새 비밀번호 해싱
-            console.log(`[기존 salt: ${currentSalt}\n기존비번: ${hashedCurrentPassword}]`);
-            console.log(`새 salt: ${newSalt}\n새비번: ${hashedNewPassword}`);
+            // console.log(`[기존 salt: ${currentSalt}\n기존비번: ${hashedCurrentPassword}]`);
+            // console.log(`새 salt: ${newSalt}\n새비번: ${hashedNewPassword}`);
 
             const response = await fetch(`${process.env.REACT_APP_API_URL}/api/updatePassword/`, {
                 method: "POST",
@@ -91,6 +93,8 @@ function UpdatePassword({setIsAuthenticated}) {
             console.error("Error updating password:", error);
             setErrorMessage("서버 요청 중 오류가 발생했습니다.");
             setSuccessMessage("");
+        } finally {
+            setTimeout(() => {setLoading(true)}, 500);
         }
     };
 
@@ -149,6 +153,7 @@ function UpdatePassword({setIsAuthenticated}) {
                         id="current-password"
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
+                        readOnly={loading}
                         required
                     />
                 </div>
@@ -159,6 +164,7 @@ function UpdatePassword({setIsAuthenticated}) {
                         id="new-password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
+                        readOnly={loading}
                         required
                     />
                 </div>
@@ -169,11 +175,12 @@ function UpdatePassword({setIsAuthenticated}) {
                         id="confirm-password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
+                        readOnly={loading}
                         required
                     />
                 </div>
                 <p>&nbsp;</p>
-                <button type="submit">비밀번호 변경</button>
+                <button type="submit" disabled={loading}>{loading ? "비밀번호 변경중..." : "비밀번호 변경"}</button>
             </form>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             {successMessage && <p className="success-message">{successMessage}</p>}

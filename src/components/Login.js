@@ -93,10 +93,10 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>로그인</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="id">ID:</label>
+          <label htmlFor="id">아이디:</label>
           <input
             type="text"
             id="id"
@@ -106,7 +106,7 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
           />
         </div>
         <div className="form-group">
-          <label htmlFor="pw">Password:</label>
+          <label htmlFor="pw">비밀번호:</label>
           <input
             type="password"
             id="pw"
@@ -116,7 +116,7 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
           />
         </div>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="btn-primary">Login</button>
+        <button type="submit" className="btn-primary">로그인</button>
         <Link to="/register"><button>회원가입</button></Link>
       </form>
     </div>

@@ -18,7 +18,8 @@ body {
 .login-container,
 .home-container,
 .register-container,
-.mypage-container {
+.mypage-container,
+.dashboard-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -127,6 +128,7 @@ input[type="checkbox"] {
 button {
   width: 100%;
   padding: 12px;
+  margin-top: 5px;
   background-color: #139ad8;
   color: white;
   border: none;
@@ -146,6 +148,14 @@ button[type="submit"]:hover {
 
 button:hover {
   background-color: #0081bd;
+}
+
+button:disabled {
+  background-color: #888;
+}
+
+button:hover:disabled {
+  background-color: #444;
 }
 
 /* 메시지 스타일 */
