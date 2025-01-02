@@ -207,21 +207,23 @@ function Register() {
           {fieldErrors.userPw2 && <p className="error-message">{fieldErrors.userPw2}</p>}
         </div>
         <div>
-          <label htmlFor="email">이메일 (선택)</label>
+          <label htmlFor="email">이메일</label>
           <input
             type="email"
             id="email"
             value={email}
+            placeholder="선택"
             onChange={(e) => handleChange("email", e.target.value)}
           />
           {fieldErrors.email && <p className="error-message">{fieldErrors.email}</p>}
         </div>
         <div>
-          <label htmlFor="nickname">닉네임 (선택)</label>
+          <label htmlFor="nickname">닉네임</label>
           <input
             type="text"
             id="nickname"
             value={nickname}
+            placeholder="선택"
             onChange={(e) => handleChange("nickname", e.target.value)}
           />
           {fieldErrors.nickname && <p className="error-message">{fieldErrors.nickname}</p>}
