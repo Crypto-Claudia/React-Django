@@ -38,12 +38,12 @@ function UpdatePassword({setIsAuthenticated}) {
         }
 
         if (newPassword !== confirmPassword) {
-            setErrorMessage("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+            setErrorMessage("새 비밀번호와 확인 비밀번호가 일치하지 않아요.");
             return;
         }
 
         if (newPassword.length < 8) {
-            setErrorMessage("비밀번호는 최소 8자 이상이어야 합니다.");
+            setErrorMessage("비밀번호는 최소 8자 이상이어야 해요.");
             return;
         }
 
@@ -71,7 +71,7 @@ function UpdatePassword({setIsAuthenticated}) {
 
             const data = await response.json();
             if (data.success) {
-                setSuccessMessage("비밀번호가 성공적으로 변경되었습니다.");
+                setSuccessMessage("비밀번호가 성공적으로 변경되었어요.");
                 setErrorMessage("");
                 setCurrentPassword("");
                 setNewPassword("");
@@ -86,12 +86,12 @@ function UpdatePassword({setIsAuthenticated}) {
                     navigate('/login', {replace: true}); // 성공 후 로그인 페이지로 리디렉션
                 }, 2000);
             } else {
-                setErrorMessage(data.message || "비밀번호 변경에 실패했습니다.");
+                setErrorMessage(data.message || "비밀번호 변경에 실패했어요.");
                 setSuccessMessage("");
             }
         } catch (error) {
             console.error("Error updating password:", error);
-            setErrorMessage("서버 요청 중 오류가 발생했습니다.");
+            setErrorMessage("서버 요청 중 오류가 발생했어요.");
             setSuccessMessage("");
         } finally {
             setTimeout(() => {setLoading(true)}, 500);
@@ -180,10 +180,10 @@ function UpdatePassword({setIsAuthenticated}) {
                     />
                 </div>
                 <p>&nbsp;</p>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
                 <button type="submit" disabled={loading}>{loading ? "비밀번호 변경중..." : "비밀번호 변경"}</button>
             </form>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {successMessage && <p className="success-message">{successMessage}</p>}
         </div>
     );
 }

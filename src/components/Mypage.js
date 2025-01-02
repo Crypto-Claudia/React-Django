@@ -35,7 +35,7 @@ function Mypage() {
             }));
           }
         } else {
-          setError("사용자 데이터를 불러오는 데 실패했습니다.");
+          setError("사용자 데이터를 불러오는 데 실패했어요");
         }
 
         // 접속 이력 가져오기
@@ -60,11 +60,11 @@ function Mypage() {
             }));
           }
         } else {
-          setError("접속 이력을 불러오는 데 실패했습니다.");
+          setError("접속 이력을 불러오는 데 실패했어요.");
         }
       } catch (err) {
-        console.error("데이터를 받아오는데 실패했습니다:", err);
-        setError("데이터를 받아오는데 실패했습니다.");
+        //console.error("데이터를 받아오는데 실패했습니다:", err);
+        setError("데이터를 요청을 실패했어요.");
       }
     };
 
@@ -137,11 +137,11 @@ function Mypage() {
           <p><strong>관측소 지역:</strong> {userData.region}</p>
           <p><strong>질환:</strong></p>
           <div className="diseases-cards">
-            {userData.diseases.split(",").map((disease, index) => (
+            {userData.diseases !== null ? userData.diseases.split(",").map((disease, index) => (
               <div key={index} className="disease-card">
                 {disease}
               </div>
-            ))}
+            )) : null}
           </div>
           <p>&nbsp;</p>
           <Link to="/update"><button>정보수정</button></Link>

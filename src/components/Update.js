@@ -35,14 +35,14 @@ function Update() {
             ...data.data,
             region,
             subRegion,
-            diseases: data.data.diseases.split(","),
+            diseases: data.data.diseases !== null ? data.data.diseases.split(",") : "",
           });
         } else {
-          setError("사용자 정보를 불러오는 데 실패했습니다.");
+          setError("사용자 정보를 불러오는 데 실패했어요.");
         }
       } catch (err) {
-        console.error("데이터를 불러오는데 실패했습니다.:", err);
-        setError("데이터를 불러오는데 실패했습니다.");
+        //console.error("데이터를 불러오는데 실패했어요.:", err);
+        setError("데이터를 불러오는데 실패했어요." + err);
       }
     };
 
@@ -53,11 +53,11 @@ function Update() {
           const data = await response.json();
           setSubRegions(data.data);
         } else {
-          setError("지역 데이터를 불러오는 데 실패했습니다.");
+          setError("지역 데이터를 불러오는 데 실패했어요.");
         }
       } catch (err) {
-        console.error("지역 데이터를 불러오는데 실패했습니다.", err);
-        setError("지역 데이터를 불러오는 데 실패했습니다.");
+        // console.error("지역 데이터를 불러오는데 실패했어요.", err);
+        setError("지역 데이터를 불러오는 데 실패했어요.");
       }
     };
 
@@ -110,11 +110,11 @@ function Update() {
         setSuccess(true);
         setTimeout(() => navigate("/mypage"), 3000);
       } else {
-        setError("정보를 업데이트하는 데 실패했습니다.");
+        setError("정보를 업데이트하는 데 실패했어요.");
       }
     } catch (err) {
-      console.error("업데이트 요청 중 오류가 발생했습니다.:", err);
-      setError("업데이트 요청 중 오류가 발생했습니다.");
+      console.error("업데이트 요청 중 오류가 발생했어요.:", err);
+      setError("업데이트 요청 중 오류가 발생했어요.");
     } finally {
       setTimeout(() => {setLoading(false)}, 3000);
     }
@@ -155,7 +155,6 @@ function Update() {
             value={formData.email}
             onChange={handleInputChange}
             disabled={loading}
-            required
           />
         </div>
         <div className="form-group">
@@ -214,12 +213,12 @@ function Update() {
             ))}
           </div>
         </div>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">정보가 성공적으로 수정되었어요.</p>}
         <button type="submit" disabled={loading}>
           {loading ? "업데이트 중..." : "수정"}
         </button>
       </form>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">정보가 성공적으로 수정되었습니다.</p>}
     </div>
   );
 }

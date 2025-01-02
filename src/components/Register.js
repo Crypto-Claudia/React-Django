@@ -25,7 +25,7 @@ function Register() {
 
     if (field === "userId") {
       if (value.length < 6 || value.length > 16) {
-        errors.userId = "아이디는 6자 이상, 최대 16자까지 가능합니다.";
+        errors.userId = "아이디는 6자 이상, 최대 16자까지 가능해요.";
       } else {
         errors.userId = "";
       }
@@ -33,7 +33,7 @@ function Register() {
 
     if (field === "userPw") {
       if (value.length < 8 || !/[A-Za-z]/.test(value) || !/\d/.test(value)) {
-        errors.userPw = "비밀번호는 8자 이상, 영어와 숫자를 포함해야 합니다.";
+        errors.userPw = "비밀번호는 8자 이상, 영어와 숫자를 포함해야해요.";
       } else {
         errors.userPw = "";
       }
@@ -41,7 +41,7 @@ function Register() {
 
     if (field === "userPw2") {
       if (value !== userPw) {
-        errors.userPw2 = "비밀번호가 일치하지 않습니다.";
+        errors.userPw2 = "비밀번호가 일치하지 않아요.";
       } else {
         errors.userPw2 = "";
       }
@@ -57,7 +57,7 @@ function Register() {
 
     if (field === "nickname") {
       if (value.length > 20) {
-        errors.nickname = "닉네임은 최대 20자까지 가능합니다.";
+        errors.nickname = "닉네임은 최대 20자까지 가능해요.";
       } else {
         errors.nickname = "";
       }
@@ -126,10 +126,10 @@ function Register() {
           navigate("/login", { replace: true });
         }, 2000);
       } else {
-        setErrorMessage(data.message || "회원가입에 실패했습니다.");
+        setErrorMessage(data.message || "회원가입을 실패했어요.");
       }
     } catch (error) {
-      setErrorMessage("서버 요청 중 오류가 발생했습니다.");
+      setErrorMessage("서버에 요청을 실패했어요.");
     } finally {
       setTimeout(() => setLoading(false), 1000);
     }

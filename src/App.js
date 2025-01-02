@@ -30,6 +30,7 @@ function App() {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
+
           localStorage.clear();
         }
       } catch (error) {

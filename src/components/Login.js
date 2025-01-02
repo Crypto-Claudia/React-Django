@@ -51,7 +51,7 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
       });
 
       if (!saltResponse.ok) {
-        throw new Error("Failed to fetch salt.");
+        throw new Error("올바른 정보가 아니에요...");
       }
 
       const { salt } = await saltResponse.json();
@@ -61,7 +61,7 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, pw: encryptedPw }),
-        credentials: "include",  // 세션 쿠키를 포함
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -85,11 +85,11 @@ function Login({ setIsAuthenticated }) {  // setIsAuthenticated를 props로 받�
         setIsAuthenticated(true);
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Login failed. Please try again.");
+        setError(errorData.message || "올바른 정보가 아니에요...");
       }
     } catch (err) {
       console.error("Request failed:", err);
-      setError(err.message || "An error occurred. Please try again.");
+      setError(err.message || "로그인 요청을 실패했어요...");
     } finally {
       setTimeout(() => {setLoading(false)}, 1000);
     }
