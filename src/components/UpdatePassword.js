@@ -94,7 +94,7 @@ function UpdatePassword({setIsAuthenticated}) {
             setErrorMessage("서버 요청 중 오류가 발생했어요.");
             setSuccessMessage("");
         } finally {
-            setTimeout(() => {setLoading(true)}, 500);
+            setTimeout(() => {setLoading(false)}, 500);
         }
     };
 
