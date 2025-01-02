@@ -71,7 +71,7 @@ function UpdatePassword({setIsAuthenticated}) {
 
             const data = await response.json();
             if (data.success) {
-                setSuccessMessage("비밀번호가 성공적으로 변경되었어요.");
+                setSuccessMessage("비밀번호가 성공적으로 변경되었어요. 다시 로그인 해 주세요.");
                 setErrorMessage("");
                 setCurrentPassword("");
                 setNewPassword("");
@@ -94,7 +94,7 @@ function UpdatePassword({setIsAuthenticated}) {
             setErrorMessage("서버 요청 중 오류가 발생했어요.");
             setSuccessMessage("");
         } finally {
-            setTimeout(() => {setLoading(false)}, 500);
+            setTimeout(() => {setLoading(false)}, 3000);
         }
     };
 
