@@ -14,6 +14,10 @@
 
 ## 별도로 프로젝트에서 사용법
 
+유저 정보는 로그인할때 일괄로 받아와서 로컬스토리지에 저장합니다.
+
+페이지 만드실 때 아래의 코드를 참고해서 테스트 하시면 됩니다.
+
 ```javascript
 localStorage.setItem("user_id", "test_id");
 localStorage.setItem("email", "test@email.com");
